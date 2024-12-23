@@ -22,6 +22,11 @@ const foodSchema = new mongoose.Schema(
       required: true,
       min: [1, 'Quantity must be at least 1'],
     },
+    foodPrice: {
+      type: Number,
+      required: true,
+      min: [1, 'Price must be at least 1'],
+    },
     pickupLocation: {
       type: String,
       required: true,
