@@ -1,6 +1,12 @@
 const express = require("express");
-const { generateToken } = require("../utils/jwt");
+const { generateToken, verifyToken } = require("../utils/jwt");
 const router = express.Router();
+
+// Verify JWT Token
+router.get("/verify", verifyToken, (req, res) => {
+    const email = req.user.email; // Extracted from the verified token
+    res.status(200).json({ email });
+  });
 
 // Login Route
 router.post("/login", async (req, res) => {
