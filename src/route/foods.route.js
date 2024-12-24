@@ -1,6 +1,7 @@
 const express = require("express");
 const Food = require("../modules/food/food.model");
 const RequestedFood = require("../modules/requestFood/requestfood.model");
+const { verifyToken } = require("../utils/jwt");
 const router = express.Router();
 
 // Get all foods
@@ -15,7 +16,7 @@ router.get("/availablefoods", async (req, res) => {
 });
 
 // Get specific food details
-router.get("/foodDetails/:id", async (req, res) => {
+router.get("/foodDetails/:id", verifyToken, async (req, res) => {
   try {
     // console.log(`req-params :::::::: `,req.params);
     const { id } = req.params;
@@ -28,7 +29,7 @@ router.get("/foodDetails/:id", async (req, res) => {
 });
 
 // Add food
-router.post("/addfood", async (req, res) => {
+router.post("/addfood", verifyToken, async (req, res) => {
   try {
     const foodData = req.body;
     const newFoodData = new Food(foodData);
@@ -41,7 +42,7 @@ router.post("/addfood", async (req, res) => {
 });
 
 // Add food to requested food
-router.post("/requestedfoods", async (req, res) => {
+router.post("/requestedfoods",verifyToken, async (req, res) => {
   try {
     const foodData = req.body;
     const requestedFood = new RequestedFood(foodData);
@@ -54,8 +55,21 @@ router.post("/requestedfoods", async (req, res) => {
   }
 });
 
+//
+// Get requested foods for logged-in user
+router.get("/myrequestedfoods", verifyToken, async (req, res) => {
+  try {
+    const email = req.user.email; // Logged-in user's email
+    const requestedFoods = await RequestedFood.find({ userEmail: email });
+    res.status(200).json(requestedFoods);
+  } catch (error) {
+    console.error("Error fetching requested foods:", error.message);
+    res.status(500).json({ message: "Failed to fetch requested foods." });
+  }
+});
+
 // Delete specific food when requested
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
     const food = await Food.findByIdAndDelete(id);
