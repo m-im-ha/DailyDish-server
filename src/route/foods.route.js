@@ -1,5 +1,6 @@
 const express = require("express");
 const Food = require("../modules/food/food.model");
+const RequestedFood = require("../modules/requestFood/requestfood.model");
 const router = express.Router();
 
 // Get all foods
@@ -39,18 +40,33 @@ router.post("/addfood", async (req, res) => {
   }
 });
 
+// Add food to requested food
+router.post("/requestedfoods", async (req, res) => {
+  try {
+    const foodData = req.body;
+    const requestedFood = new RequestedFood(foodData);
+    await requestedFood.save();
+    console.log(`Food added to requested food.`)
+    res.status(201).json({message : "Food added to requested food."})
+  } catch (error) {
+    console.error(`Error to add requested food`, error.message);
+    res.status(500).json({message: "Failed to add requested food."})
+  }
+});
+
 // Delete specific food when requested
 router.delete("/delete/:id", async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const food = await Food.findByIdAndDelete(id);
-    if(!food){
-      res.status(404).json({message : "Food not found."});
+    if (!food) {
+      res.status(404).json({ message: "Food not found." });
     }
-    res.status(200).json({message: "Food deleted successfully."})
+    console.log(`Food deleted successfully.`)
+    res.status(200).json({ message: "Food deleted successfully." });
   } catch (error) {
     console.error(`Error to delete food.`, error.message);
-    res.status(500).json({message : "Failed to delete food."})
+    res.status(500).json({ message: "Failed to delete food." });
   }
 });
 
