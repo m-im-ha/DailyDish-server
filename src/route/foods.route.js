@@ -98,14 +98,15 @@ router.put("/updatefood/:id", verifyToken, async (req, res) => {
   }
 });
 
-// Delete specific food when requested
+// Delete specific food
 router.delete("/delete/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
-    const food = await Food.findByIdAndDelete(id);
+    const food = await Food.findOne({_id : id});
     if (!food) {
-      res.status(404).json({ message: "Food not found." });
+      return res.status(404).json({ message: "Food not found." });
     }
+    await Food.findByIdAndDelete(id);
     console.log(`Food deleted successfully.`);
     res.status(200).json({ message: "Food deleted successfully." });
   } catch (error) {
