@@ -73,11 +73,28 @@ router.get("/myrequestedfoods", verifyToken, async (req, res) => {
 router.get("/managefoods", verifyToken, async (req, res) => {
   try {
     const email = req.user.email;
-    const foods = await Food.find({"donator.email" : email});
+    const foods = await Food.find({ "donator.email": email });
     res.status(200).json(foods);
   } catch (error) {
-    console.error("Error fetching foods",error.message);
-    res.status(500).json({message : "Failed to fetch foods."});
+    console.error("Error fetching foods", error.message);
+    res.status(500).json({ message: "Failed to fetch foods." });
+  }
+});
+
+// Update food
+router.put("/updatefood/:id", verifyToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const email = req.user.email;
+    const food = await Food.findOne({ _id: id, "donator.email": email });
+    if(!food){
+      return res.status(404).json({message : "Food not found"})
+    }
+    await Food.findByIdAndUpdate(id,req.body,{new:true});
+    res.status(200).json({message : "Food updated successfully."})
+  } catch (error) {
+    console.error("Error to update food", error.message);
+    res.status(500).json({ message: "Failed to update food." });
   }
 });
 
