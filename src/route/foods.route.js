@@ -81,6 +81,19 @@ router.get("/managefoods", verifyToken, async (req, res) => {
   }
 });
 
+// Get top 6 featured foods by highest quantity
+router.get("/featuredfoods", async (req, res) => {
+  try {
+    const featuredFoods = await Food.find()
+      .sort({ foodQuantity: -1 }) 
+      .limit(6); 
+    res.status(200).json(featuredFoods);
+  } catch (error) {
+    console.error("Error fetching featured foods:", error.message);
+    res.status(500).json({ message: "Failed to fetch featured foods." });
+  }
+});
+
 // Update food
 router.put("/updatefood/:id", verifyToken, async (req, res) => {
   try {
