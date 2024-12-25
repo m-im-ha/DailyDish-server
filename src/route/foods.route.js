@@ -57,7 +57,6 @@ router.post("/requestedfoods", verifyToken, async (req, res) => {
   }
 });
 
-//
 // Get requested foods for logged-in user
 router.get("/myrequestedfoods", verifyToken, async (req, res) => {
   try {
@@ -67,6 +66,18 @@ router.get("/myrequestedfoods", verifyToken, async (req, res) => {
   } catch (error) {
     console.error("Error fetching requested foods:", error.message);
     res.status(500).json({ message: "Failed to fetch requested foods." });
+  }
+});
+
+// Get all foods added by the logged-in user
+router.get("/managefoods", verifyToken, async (req, res) => {
+  try {
+    const email = req.user.email;
+    const foods = await Food.find({"donator.email" : email});
+    res.status(200).json(foods);
+  } catch (error) {
+    console.error("Error fetching foods",error.message);
+    res.status(500).json({message : "Failed to fetch foods."});
   }
 });
 
