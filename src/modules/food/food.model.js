@@ -12,7 +12,7 @@ const foodSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator: function (v) {
-          return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg))$/.test(v);
+          return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))$/.test(v);
         },
         message: 'Invalid image URL format!',
       },
@@ -52,7 +52,7 @@ const foodSchema = new mongoose.Schema(
         required: true,
         validate: {
           validator: function (v) {
-            return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg))$/.test(v);
+            return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))$/.test(v);
           },
           message: 'Invalid image URL format!',
         },
