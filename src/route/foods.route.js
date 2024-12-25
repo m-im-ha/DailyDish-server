@@ -60,8 +60,13 @@ router.post("/requestedfoods", verifyToken, async (req, res) => {
 // Get requested foods for logged-in user
 router.get("/myrequestedfoods", verifyToken, async (req, res) => {
   try {
-    const email = req.user.email; // Logged-in user's email
+    const email = req.user.email; 
     const requestedFoods = await RequestedFood.find({ userEmail: email });
+    if (!requestedFoods || requestedFoods.length === 0) {
+      // Return empty array if no requests exist
+      return res.status(200).json([]);
+    }
+    
     res.status(200).json(requestedFoods);
   } catch (error) {
     console.error("Error fetching requested foods:", error.message);
@@ -74,6 +79,11 @@ router.get("/managefoods", verifyToken, async (req, res) => {
   try {
     const email = req.user.email;
     const foods = await Food.find({ "donator.email": email });
+    if (!foods || foods.length === 0) {
+      // Return empty array if no foods are added by this user
+      return res.status(200).json([]);
+    }
+
     res.status(200).json(foods);
   } catch (error) {
     console.error("Error fetching foods", error.message);
