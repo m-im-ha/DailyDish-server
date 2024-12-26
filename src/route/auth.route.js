@@ -10,7 +10,7 @@ router.get("/verify", verifyToken, (req, res) => {
   console.log("Decoded User:", req.user);
 
   try {
-    const email = req.user.email; // Extract email from the verified token
+    const email = req.user.email;
     console.log("Verified Email:", email);
     return res.status(200).json({ email });
   } catch (error) {
@@ -28,11 +28,10 @@ router.post("/jwt", async (req, res) => {
   try {
     const token = generateToken({ email });
 
-  
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, 
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
@@ -79,9 +78,9 @@ router.post("/google-login", async (req, res) => {
     const token = generateToken({ email });
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, 
-      sameSite: "none",
-      maxAge: 24 * 60 * 60 * 1000,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      maxAge: 24 * 60 * 60 * 1000, 
     });
     return res.status(200).json({ message: "Google Login successful!" });
   } catch (error) {
@@ -94,8 +93,8 @@ router.post("/logout", (req, res) => {
  
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false,
-    sameSite: "none",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
   });
   return res.status(200).json({ message: "Logged out!" });
 });

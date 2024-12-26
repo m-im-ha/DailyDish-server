@@ -13,8 +13,12 @@ const URI = process.env.MONGODB_URI;
 
 app.use(
   cors({
-    origin: "http://localhost:5173", 
-    credentials: true, 
+    origin: [
+      "http://localhost:5173",
+      "https://dailydish-1f0f4.web.app",
+      "https://dailydish-1f0f4.firebaseapp.com",
+    ],
+    credentials: true,
   })
 );
 
@@ -24,7 +28,6 @@ connectDB(URI);
 
 app.use("/auth", authRoute);
 app.use("/foods", foodRoute);
-
 
 app.get("/", (req, res) => {
   res.send(`Food Server is running.`);
