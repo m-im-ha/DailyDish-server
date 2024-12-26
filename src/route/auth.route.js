@@ -5,13 +5,13 @@ const router = express.Router();
 
 // Verify JWT Token
 router.get("/verify", verifyToken, (req, res) => {
-  console.log("Verify Route Hit!");
-  console.log("Cookies:", req.cookies);
-  console.log("Decoded User:", req.user);
+  // console.log("Verify Route Hit!");
+  // console.log("Cookies:", req.cookies);
+  // console.log("Decoded User:", req.user);
 
   try {
     const email = req.user.email;
-    console.log("Verified Email:", email);
+    // console.log("Verified Email:", email);
     return res.status(200).json({ email });
   } catch (error) {
     return res.status(401).json({ message: "Unauthorized" });

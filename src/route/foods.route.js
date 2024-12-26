@@ -20,9 +20,9 @@ router.get("/foodDetails/:id", verifyToken, async (req, res) => {
   try {
     // console.log(`req-params :::::::: `,req.params);
     const { id } = req.params;
-    console.log("Fetching food details...");
+    // console.log("Fetching food details...");
     const food = await Food.findById(id);
-    console.log("Food details fetched:", food);
+    // console.log("Food details fetched:", food);
     res.status(200).json(food);
   } catch (error) {
     console.error("Error to get food details : ", error.message);
@@ -33,15 +33,18 @@ router.get("/foodDetails/:id", verifyToken, async (req, res) => {
 // Add food
 router.post("/addfood", verifyToken, async (req, res) => {
   try {
+    // console.log("Received Food Data:", req.body);
     const foodData = req.body;
+
     const newFoodData = new Food(foodData);
-    await newFoodData.save();
+    await newFoodData.save(); 
     res.status(201).json({ message: "Food created successfully!" });
   } catch (error) {
-    console.error("Error to add food", error.message);
-    res.status(500).json({ message: "Failed to creat food." });
+    console.error("Error details:", error); 
+    res.status(500).json({ message: error.message });
   }
 });
+
 
 // Add food to requested food
 router.post("/requestedfoods", verifyToken, async (req, res) => {
@@ -49,7 +52,7 @@ router.post("/requestedfoods", verifyToken, async (req, res) => {
     const foodData = req.body;
     const requestedFood = new RequestedFood(foodData);
     await requestedFood.save();
-    console.log(`Food added to requested food.`);
+    // console.log(`Food added to requested food.`);
     res.status(201).json({ message: "Food added to requested food." });
   } catch (error) {
     console.error(`Error to add requested food`, error.message);
@@ -130,7 +133,7 @@ router.delete("/delete/:id", verifyToken, async (req, res) => {
       return res.status(404).json({ message: "Food not found." });
     }
     await Food.findByIdAndDelete(id);
-    console.log(`Food deleted successfully.`);
+    // console.log(`Food deleted successfully.`);
     res.status(200).json({ message: "Food deleted successfully." });
   } catch (error) {
     console.error(`Error to delete food.`, error.message);

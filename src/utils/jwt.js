@@ -11,7 +11,7 @@ function verifyToken(req, res, next) {
 
   // Check if token exists
   if (!token) {
-    console.log("No token provided! Unauthorized access.");
+    // console.log("No token provided! Unauthorized access.");
     return res.status(401).json({ message: "Unauthorized access!" });
   }
 

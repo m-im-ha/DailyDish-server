@@ -10,12 +10,7 @@ const foodSchema = new mongoose.Schema(
     foodImage: {
       type: String,
       required: true,
-      validate: {
-        validator: function (v) {
-          return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))$/.test(v);
-        },
-        message: 'Invalid image URL format!',
-      },
+   
     },
     foodQuantity: {
       type: Number,
@@ -50,30 +45,21 @@ const foodSchema = new mongoose.Schema(
       image: {
         type: String,
         required: true,
-        validate: {
-          validator: function (v) {
-            return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))$/.test(v);
-          },
-          message: 'Invalid image URL format!',
-        },
+ 
       },
       name: {
         type: String,
         required: true,
+        default: "Anonymous Donator",
         trim: true,
       },
       email: {
         type: String,
         required: true,
         trim: true,
-        validate: {
-          validator: function (v) {
-            return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v);
-          },
-          message: 'Invalid email format!',
-        },
       },
     },
+    
     foodStatus: {
       type: String,
       required: true,
