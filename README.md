@@ -2,19 +2,19 @@
 
 ## Built With
 * **cookie-parser**
- - Parse Cookie header and populate req.cookies
+  - Parse Cookie header and populate req.cookies
  
 * **cors**
- - Enable Cross-Origin Resource Sharing
+  - Enable Cross-Origin Resource Sharing
  
 * **dotenv**
- - Load environment variables from .env file
+  - Load environment variables from .env file
  
 * **express**
- - Web application framework for Node.js
+  - Web application framework for Node.js
  
 * **jsonwebtoken**
- - Implement JSON Web Token authentication
+  - Implement JSON Web Token authentication
  
 * **mongoose**
- - MongoDB object modeling tool
+  - MongoDB object modeling tool
