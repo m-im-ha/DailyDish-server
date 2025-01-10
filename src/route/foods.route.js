@@ -16,7 +16,7 @@ router.get("/availablefoods", async (req, res) => {
 });
 
 // Get specific food details
-router.get("/foodDetails/:id", verifyToken, async (req, res) => {
+router.get("/foodDetails/:id", async (req, res) => {
   try {
     // console.log(`req-params :::::::: `,req.params);
     const { id } = req.params;
